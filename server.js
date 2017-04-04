@@ -28,6 +28,13 @@ app.get('/todos',function(req,res){
 	res.json(todos);
 });
 
-app.get('/todos/:id',function(req,res{
-	res.send(Asking for todo with id of : + req.params.id);
-}));
+app.get('/todos/:id',function(req,res){
+	
+	for (var i in todos) {
+		if(todos[i].id == req.params.id){
+			res.json(todos[req.params.id]);
+		}
+	}
+	//res.send('Asking for todo with id of :' + req.params.id);
+	res.status(404).send('No information');	
+});
