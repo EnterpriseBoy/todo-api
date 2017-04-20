@@ -19,6 +19,7 @@ app.get('/todos',function(req,res){
 });
 
 app.get('/todos/:id',function(req,res){
+	
 	//converting the id to an Int for comparison
 	var todoId = parseInt(req.params.id, 10);
 
@@ -33,7 +34,13 @@ app.get('/todos/:id',function(req,res){
 });
 
 app.post('/todos',function(req,res){
+
 	var body = req.body;
+
+	// Validation of data coming in using underscore
+	if(!_.isBoolean(body.completed) || !_.isString(body.description) || body.description.trim().lenght === 0 ){
+		return res.status(400).send();
+	}
 
 	//Add the id to the todos array
 	body.id = todoNextId++;
