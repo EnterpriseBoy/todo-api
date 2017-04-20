@@ -19,7 +19,7 @@ app.get('/todos',function(req,res){
 });
 
 app.get('/todos/:id',function(req,res){
-	
+
 	//converting the id to an Int for comparison
 	var todoId = parseInt(req.params.id, 10);
 
@@ -35,12 +35,16 @@ app.get('/todos/:id',function(req,res){
 
 app.post('/todos',function(req,res){
 
-	var body = req.body;
+	//Removing any bad fields that are entered
+	var body = _.pick(req.body,'completed','description')
 
 	// Validation of data coming in using underscore
 	if(!_.isBoolean(body.completed) || !_.isString(body.description) || body.description.trim().lenght === 0 ){
 		return res.status(400).send();
 	}
+	
+	//Removing the spaces at the start and end of field, not middle
+	body.description = body.description.trim()
 
 	//Add the id to the todos array
 	body.id = todoNextId++;
@@ -48,6 +52,7 @@ app.post('/todos',function(req,res){
 	//Push the body into the array
 	todos.push(body);
 
+	//Return the array
 	res.json(body);
 });
 
