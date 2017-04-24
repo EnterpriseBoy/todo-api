@@ -36,7 +36,7 @@ app.get('/todos/:id',function(req,res){
 app.post('/todos',function(req,res){
 
 	//Removing any bad fields that are entered
-	var body = _.pick(req.body,'completed','description')
+	var body = _.pick(req.body,'description','completed')
 
 	// Validation of data coming in using underscore
 	if(!_.isBoolean(body.completed) || !_.isString(body.description) || body.description.trim().lenght === 0 ){
@@ -54,6 +54,24 @@ app.post('/todos',function(req,res){
 
 	//Return the array
 	res.json(body);
+});
+
+app.delete('/todos/:id',function(req,res){
+
+	//converting the id to an Int for comparison
+	var todoId = parseInt(req.params.id, 10);
+	//Finding the item in the array
+	var matchedToDo = _.findWhere(todos,{id: todoId})
+
+	if(matchedToDo){
+		todos = _.without(todos,matchedToDo)
+		//Send back status and item deleted
+		res.json(matchedToDo);
+	}else{
+		//sending back and object so this can be used in main program
+		res.status(404).json({"error":"not todo found wiht that id"})
+	}
+	
 });
 
 app.listen(PORT, function(){
