@@ -88,23 +88,19 @@ app.put('/todos/:id',function(req,res){
 
 		var validAttributes = {};
 
-		if(body.hasOwnProperty('completed')&& _.isBoolean(body.completed)){
+		if(body.hasOwnProperty('completed') && _.isBoolean(body.completed)){
 			validAttributes.completed = body.completed;
 		}else if(body.hasOwnProperty('completed')){
 			return res.status(400).send();
-		}else{
-			//Attribute never provided
 		}
 
-		if(body.hasOwnProperty('description') && _.isString(body.description) && body.description.trim().lenght > 0 ){
+		if(body.hasOwnProperty('description') && _.isString(body.description)  && body.description.trim().length > 0 ){
 			validAttributes.description = body.description;
 		}else if(body.hasOwnProperty('description')){
 			return res.status(400).send();
 		}
 
 		_.extend(matchedToDo,validAttributes);
-
-		console.log(todos);
 
 		res.json(matchedToDo);
 
