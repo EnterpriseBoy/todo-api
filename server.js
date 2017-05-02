@@ -20,9 +20,9 @@ app.get('/todos',function(req,res){
 
 	var filteredTodos = todos;
 
-	if (queryParams.completed === 'true'){
+	if (queryParams.hasOwnProperty('completed') && queryParams.completed === 'true'){
 		filteredTodos = _.where(todos,{'completed':true});
-	}else{
+	}else if(queryParams.hasOwnProperty('completed') && queryParams.completed==='false'{
 		filteredTodos = _.where(todos,{'completed':false});
 	}
 	res.json(filteredTodos);
